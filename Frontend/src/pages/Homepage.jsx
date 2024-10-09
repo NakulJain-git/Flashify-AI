@@ -17,7 +17,7 @@ const HomePage = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://localhost:3000/api/v1/packs`
+        `https://flashify-ai.vercel.app/api/v1/packs`
       );
       /* Removing this because this causes too much request to backend */
 
