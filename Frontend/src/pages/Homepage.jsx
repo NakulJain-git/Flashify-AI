@@ -46,7 +46,7 @@ const HomePage = () => {
   const deletePack = async (id) => {
     try {
       const response = axios
-        .delete(`http://localhost:3000/api/v1/pack/${id}`)
+        .delete(`https://flashify-backend.vercel.app/api/v1/pack/${id}`)
         .then(() => fetchFlashcards());
       toast.promise(response, {
         loading: "Deleting pack...",

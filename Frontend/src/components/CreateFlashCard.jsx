@@ -37,7 +37,7 @@ function CreateFlashCard() {
       }
       try {
         const response = await axios.post(
-          `http://localhost:3000/api/v1/flashcard`,
+          `https://flashify-backend.vercel.app/api/v1/flashcard`,
           {
             packName: packName.trim(),
             question: card.front.trim(),

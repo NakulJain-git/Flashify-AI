@@ -10,7 +10,7 @@ const useFetchFlashCard = (id) => {
     const fetchFlashCards = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/v1/flashcards/pack/${id}`
+          `https://flashify-backend.vercel.app/api/v1/flashcards/pack/${id}`
         );
 
         const cardsData = response.data.data.map((card) => {
@@ -23,7 +23,7 @@ const useFetchFlashCard = (id) => {
         if (cardsData.length == 0) {
           // Fetch Pack Name
           const res = await axios.get(
-            `http://localhost:3000/api/v1/pack/${id}`
+            `https://flashify-backend.vercel.app/api/v1/pack/${id}`
           );
           console.log("res",res);
           setPackName(res.data.data.name);

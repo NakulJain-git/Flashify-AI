@@ -36,7 +36,7 @@ function EditFlashcardPack() {
   const removeFlashcard = async (id) => {
     try {
       const response = toast.promise(
-        axios.delete(`http://localhost:3000/api/v1/flashcard/${id}`), // Remove .then()
+        axios.delete(`https://flashify-backend.vercel.app/api/v1/flashcard/${id}`), // Remove .then()
         {
           loading: "Deleting flashcard...",
           success: "Flashcard deleted successfully",
@@ -60,7 +60,7 @@ function EditFlashcardPack() {
       }
 
       // Update pack name
-      await axios.put(`http://localhost:3000/api/v1/pack/${id}`, {
+      await axios.put(`https://flashify-backend.vercel.app/api/v1/pack/${id}`, {
         name: packName,
       });
 
@@ -71,7 +71,7 @@ function EditFlashcardPack() {
             `Please fill out all fields for flashcard ${card.id}`
           );
         }
-        return axios.put(`http://localhost:3000/api/v1/flashcard/${card.id}`, {
+        return axios.put(`https://flashify-backend.vercel.app/api/v1/flashcard/${card.id}`, {
           question: card.question,
           answer: card.answer,
           packId: id,

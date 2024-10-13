@@ -22,7 +22,7 @@ function AIFlashcardGenerator() {
     try {
       if (activeTab === "text") {
         const response = axios
-          .post(`http://localhost:3000/api/v1/flashcard/ai`, {
+          .post(`https://flashify-backend.vercel.app/api/v1/flashcard/ai`, {
             prompt,
           })
           .then((response) => {
