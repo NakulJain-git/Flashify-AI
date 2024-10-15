@@ -4,7 +4,7 @@ const Loader = () => {
         <div>
             <Hourglass
                 visible="true"
-                width="200"
+                size = "500"
                 color="#2563EB"
                 aria-label="infinity-spin-loading"
             />
