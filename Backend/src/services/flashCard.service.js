@@ -15,37 +15,43 @@ class FlashcardsServices {
         session.startTransaction();
         try {
             console.log("Data", data);
-            let pack = await Pack.findOne({ name: data.packName.trim() }).session(session)
-            console.log("pack found", pack);
+            
+            // Find or create the pack
+            let pack = await Pack.findOne({ name: data.packName.trim() }).session(session);
+            console.log("Pack found", pack);
+            
             if (!pack) {
                 console.log("Creating new pack");
                 const newPackArray = await Pack.create([{ name: data.packName.trim() }], { session });
                 pack = newPackArray[0];
                 console.log("Pack created successfully");
             }
+            
             console.log("Pack", pack._id);
-            const newflashCardArray = await FlashCard.create([{
+
+            // Create the flashcard
+            const newFlashCardArray = await FlashCard.create([{
                 question: data.question.trim(),
                 answer: data.answer.trim(),
                 packId: pack._id
-            }],
-                { session }
-            )
-            const flashCard = newflashCardArray[0];
+            }], { session });
+            const flashCard = newFlashCardArray[0];
+
+            // Commit the transaction
             await session.commitTransaction();
-            await session.endSession();
             return flashCard;
 
-        }
-        catch (error) {
+        } catch (error) {
+            // Abort transaction in case of error
             await session.abortTransaction();
-            session.endSession();
             console.log("Error creating flashcard:", error);
-            console.log("Error", error);
-            throw new Error(error.message);     // Throw error for controller to handle
+            throw error;  // Throw original error for controller to handle
+
+        } finally {
+            // Ensure session is always ended
+            await session.endSession();
         }
     }
-    
     async updateFlashcard(id, data) {
         const flashCard = await FlashCard.findById(id);
         if (!flashCard) {
