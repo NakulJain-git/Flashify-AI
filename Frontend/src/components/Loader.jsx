@@ -5,7 +5,7 @@ function Loader(){
     <div className="flex justify-center items-center">
       <Hourglass 
         visible = "true"
-        size = "500"
+        size = "200"
         color = "#2563EB"
         aria-label='infinity-spin-loading'
       />
