@@ -17,33 +17,43 @@ function AIFlashcardGenerator() {
     { id: "image", label: "Image", icon: Image },
   ];
 
- const generateFlashCardHandler = async () => {
-  setLoading(true);
-  try {
-    if (activeTab === "text") {
-      const response = await toast.promise(
-        axios.post(`https://flashify-backend.vercel.app/api/v1/flashcard/ai`, {
-          prompt,
-        }),
-        {
-          loading: "Generating flashcards...",
-          success: "Flashcards generated successfully",
-          error: "Failed to generate flashcards",
+  const generateFlashCardHandler = async () => {
+    setLoading(true);
+    try {
+      if (activeTab === "text") {
+        const response = await toast.promise(
+          axios.post(`https://flashify-backend.vercel.app/api/v1/flashcard/ai`, {
+            prompt,
+          }),
+          {
+            loading: "Generating flashcards...",
+            success: "Flashcards generated successfully",
+            error: "Failed to generate flashcards",
+          }
+        );
+
+        console.log("AI Response:", response?.data);
+
+        const flashcards = response?.data?.data;
+
+        if (Array.isArray(flashcards) && flashcards.length > 0) {
+          const packId = flashcards[0]?.packId?._id;
+          if (packId) {
+            navigate(`/flashcard-pack/${packId}`);
+          } else {
+            toast.error("Pack ID not found in response.");
+          }
+        } else {
+          toast.error("No flashcards generated. Try a different prompt.");
         }
-      );
-
-      console.log("response", response);
-
-      // ✅ Only navigate after success
-      navigate(`/flashcard-pack/${response.data.data[0].packId._id}`);
+      }
+    } catch (error) {
+      console.error("Failed to generate flashcards:", error.message);
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    console.error("Failed to generate flashcards: " + error.message);
-    toast.error("Failed to generate flashcards: " + error.message);
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   if (loading) {
     return <Loader />;
