@@ -17,34 +17,33 @@ function AIFlashcardGenerator() {
     { id: "image", label: "Image", icon: Image },
   ];
 
-  const generateFlashCardHandler = async () => {
-    setLoading(true);
-    try {
-      if (activeTab === "text") {
-        const response = axios
-          .post(`https://flashify-backend.vercel.app/api/v1/flashcard/ai`, {
-            prompt,
-          })
-          .then((response) => {
-            console.log("response",response)
-
-            navigate(`/flashcard-pack/${response.data.data[0].packId._id}`);
-            setLoading(false);
-          });
-
-        toast.promise(response, {
+ const generateFlashCardHandler = async () => {
+  setLoading(true);
+  try {
+    if (activeTab === "text") {
+      const response = await toast.promise(
+        axios.post(`https://flashify-backend.vercel.app/api/v1/flashcard/ai`, {
+          prompt,
+        }),
+        {
           loading: "Generating flashcards...",
           success: "Flashcards generated successfully",
           error: "Failed to generate flashcards",
-        });
-      }
-    } catch (error) {
-      console.error("Failed to generate flashcards: " + error.message);
-      toast.error("Failed to generate flashcards: " + error.message);
-    } finally {
-      setLoading(false);
+        }
+      );
+
+      console.log("response", response);
+
+      // ✅ Only navigate after success
+      navigate(`/flashcard-pack/${response.data.data[0].packId._id}`);
     }
-  };
+  } catch (error) {
+    console.error("Failed to generate flashcards: " + error.message);
+    toast.error("Failed to generate flashcards: " + error.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
   if (loading) {
     return <Loader />;
