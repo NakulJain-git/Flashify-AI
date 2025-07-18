@@ -3,10 +3,6 @@
 
 The AI-powered Flashify-AI App is a dynamic and intelligent learning tool built using the MERN stack.Users can create flashcards manually by inputting information or by leveraging AI to generate flashcards automatically by placing text into the app.
 
-## Hosted Site Link
-
-https://flashify-ai-frontend.vercel.app/
-
 ## Demo Video
 https://drive.google.com/file/d/1DZlHG7TQNYxBZDZqVG-ytxEhnNtIWg06/view
 
